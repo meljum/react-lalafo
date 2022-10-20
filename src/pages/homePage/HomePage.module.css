@@ -1,0 +1,12 @@
+.cardswrapper{
+    margin-top: 50px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 20px;
+    justify-content: space-between;
+}
+.noAdds{
+    margin: auto;
+    color: rgb(85, 138, 118);
+}
