@@ -16,20 +16,22 @@ import CreateAdPage from "./pages/createAdPage/CreateAdPage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Api from "./api/Api";
+import PublicRoute from "./components/routes/PublicRoute";
+import PrivateRoute from "./components/routes/PrivateRoute";
+import { useDispatch } from "react-redux";
+import { housesSliceAction } from "./redux/housesSlice";
 
 
 function App() {
-  const [housesArray,setHousesArray]  = useState([])
-  const [isLoading, setLoading] = useState(true)
+ 
+  const dispatch = useDispatch();
 
   useEffect(() => {
     Api.getHouses()
-      .finally(() => {
-        setLoading(false)
-      })
-      .then((res) => {
+        .then((res) => {
         console.log(res);
-         setHousesArray(res.data)
+         
+         dispatch(housesSliceAction.setData(res.data))
       })
       .catch()
   }, []);
@@ -39,17 +41,28 @@ return (
       <Routes>
         <Route 
           path="/" 
-          element={<HomePage isLoading={isLoading} housesArray={housesArray}
+          element={<HomePage  
           />}/>
       <Route path="/product/:id" element={<ProductPage />}/>
-      <Route path="/login" element={<LoginPage/>} />
+      <Route path="/login" element={
+        <PublicRoute>
+           <LoginPage/>
+        </PublicRoute>
+     
+      } />
       <Route 
             path="/dashboard" 
             element={
-            <Dashboard isLoading={isLoading} housesArray={housesArray}/>
+            <PrivateRoute>
+            <Dashboard/>
+            </PrivateRoute>
             } 
             />
-            <Route path="/create-ad" element={<CreateAdPage/>} />
+            <Route path="/create-ad" element={
+              <PrivateRoute>
+            <CreateAdPage/>
+            </PrivateRoute>
+            } />
       <Route path="*" element={<ErrorBlock text="Page not found"/>} />
     </Routes>   
       <ToastContainer/>    

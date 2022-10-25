@@ -19,26 +19,18 @@ function CreateAdPage() {
         theme:"colored" 
     }
     
+
     const submit = (e) => {
         e.preventDefault();
         setSending(true)
         toast.info("Start", toastSettings)
-        Api.getHouses()
-        // fetch(base_url + "houses/",
-        // {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body:JSON.stringify({
-        //         title:name,
-        //         imgUrl:imgUrl,
-        //         price:price,
-        //         description:description
-        //     })
-        // }
-        // )
-        .then((res) => {
+        const data = {
+                  title:name,
+                  imgUrl:imgUrl,
+                  price:price,
+                  description:description
+              }
+        Api.postHouse(data).then((res) => {
             if(res.status === 201) {
               toast.success("Success", toastSettings)
               navigate("/dashboard")

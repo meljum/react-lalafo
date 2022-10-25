@@ -4,9 +4,10 @@ import css from "../homePage/HomePage.module.css"
 import Card from "../../components/cards/Card"
 import Loader from "../../components/loader/Loader"
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-
-function Dashboard({isLoading,housesArray}) {
+function Dashboard() {
+  const {isLoading,data} = useSelector((state) => state.houses)
 
   if(isLoading){
     return <Loader/>
@@ -18,8 +19,8 @@ function Dashboard({isLoading,housesArray}) {
       <Link className='btn-primary' to="/create-ad"> + Create new element </Link>
       <div className={css.cardswrapper}>
         {
-         housesArray.length 
-         ? housesArray.map((item) => 
+         data.length 
+         ? data.map((item) => 
          <Card 
           id={item.id}
           key={item.id}
